@@ -30,6 +30,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: |
-            ghcr.io/ozil-m/odoo-kuber:latest
-            ghcr.io/ozil-m/odoo-kuber:${{ github.sha }}
+          tags: ghcr.io/ozil-m/odoo-kuber:latest
