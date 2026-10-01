@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="einvoice_info_email_template" model="mail.template">
+        <field name="name">E-Invoice Information Email</field>
+        <field name="model_id" ref="kc_hayyak.model_sale_order"/>
+
+    </record>
+    <record id="hayyak_email_notify_admin_for_failed_payments" model="mail.template">
+        <field name="name">Payment failed Notify</field>
+        <field name="model_id" ref="kc_hayyak.model_sale_order"/>
+
+    </record>
+</odoo>

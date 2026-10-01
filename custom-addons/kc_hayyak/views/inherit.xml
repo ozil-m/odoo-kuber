@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="hayyak_view_lms_lounge_form" model="ir.ui.view">
+            <field name="name">hayyak_view_lms_lounge_form</field>
+            <field name="model">lms.lounge</field>
+            <field name="inherit_id" ref="lms_management.view_lms_lounge_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/notebook/page[@name='other_info']" position="inside">
+                    <field name="hayyak_app"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

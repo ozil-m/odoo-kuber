@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="hayyak_view_partner_form" model="ir.ui.view">
+            <field name="name">hayyak_view_partner_form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='function']" position="after">
+                    <field name="hayyak_app" readonly="1"/>
+                </xpath>
+
+                <field name="ref" position="attributes">
+                    <attribute name="readonly">hayyak_app</attribute>
+                </field>
+
+                <field name="phone" position="attributes">
+                    <attribute name="readonly">hayyak_app</attribute>
+                </field>
+
+                <field name="mobile" position="attributes">
+                    <attribute name="readonly">hayyak_app</attribute>
+                </field>
+
+                <field name="email" position="attributes">
+                    <attribute name="readonly">hayyak_app</attribute>
+                </field>
+
+                <field name="title" position="attributes">
+                    <attribute name="readonly">hayyak_app</attribute>
+                </field>
+
+                <field name="name" position="attributes">
+                    <attribute name="readonly">hayyak_app</attribute>
+                </field>
+
+                <xpath expr="//sheet/notebook" position="inside">
+                    <page name="hayyak_app" string="Hayyak Info" invisible="not hayyak_app">
+                        <group col="4">
+                            <field name="membership_id"/>
+                            <field name="passport"/>
+                            <field name="gender"/>
+                            <field name="birth_date"/>
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>
