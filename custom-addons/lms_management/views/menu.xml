@@ -1,0 +1,68 @@
+<odoo>
+    <menuitem id="menu_lms_root" name="Lounge Management" sequence="10"/>
+
+    <menuitem id="menu_lms_operations" name="Operations" parent="menu_lms_root" sequence="30"/>
+
+    <menuitem id="menu_lms_visit" name="Visits (Orders)" parent="menu_lms_operations" action="action_lms_visit"
+              sequence="5"/>
+
+    <menuitem id="pos_lounge_voucher" name="Vouchers" parent="menu_lms_operations" action="lounge_voucher_action"
+              sequence="10"/>
+
+    <menuitem id="menu_lms_override" name="Visits Override" parent="menu_lms_operations" action="action_lms_override"
+              sequence="15" groups="lms_management.lms_visit_override_group_user"/>
+
+    <menuitem id="reservation_menu" name="Manage Reservations" parent="menu_lms_operations"
+              action="reservation_action" sequence="10"/>
+
+    <menuitem id="menu_lms_config" name="Configuration" parent="menu_lms_root" sequence="99"/>
+
+    <menuitem id="menu_lms_lounges_root" name="Lounges" parent="menu_lms_config" sequence="1"/>
+
+    <menuitem id="menu_lms_lounges" name="Lounges" parent="menu_lms_lounges_root" action="action_lms_lounge"
+              sequence="1"/>
+    <menuitem id="menu_services" name="Services" parent="menu_lms_lounges_root" action="services_action" sequence="10"/>
+
+    <menuitem id="menu_facilities" name="Facilities" parent="menu_lms_lounges_root" action="facilities_action"
+              sequence="15"/>
+
+    <menuitem id="business_partner_menu" parent="menu_lms_config" name="Business Partners" sequence="5"/>
+
+    <menuitem id="airline_business_partner_menu" parent="business_partner_menu" name="Airlines"
+              action="airline_business_partner_action" sequence="1"/>
+
+    <menuitem id="aggregator_business_partner_menu" parent="business_partner_menu" name="Aggregator"
+              action="aggregator_business_partner_action" sequence="5"/>
+
+    <menuitem id="corporate_business_partner_menu" parent="business_partner_menu" name="Corporate"
+              action="corporate_business_partner_action" sequence="10"/>
+
+    <menuitem id="cash_business_partner_menu" parent="business_partner_menu" name="Cash"
+              action="cash_business_partner_action" sequence="15"/>
+
+    <menuitem id="all_business_partner_menu" parent="business_partner_menu" name="Business Partners"
+              groups="base.group_system" action="business_partner_action" sequence="20"/>
+
+    <menuitem id="ffp_menu_root" parent="menu_lms_config" name="FFP" sequence="10"/>
+
+    <menuitem id="menu_lms_ffp" name="FFP Programs" parent="ffp_menu_root" action="action_lms_ffp_program"
+              sequence="10"/>
+
+    <menuitem id="menu_lms_ffp_tier" name="FFP Tiers" parent="ffp_menu_root" action="action_lms_ffp_tier"
+              sequence="15"/>
+
+    <menuitem id="acceptance_rules_menu" name="Acceptance rules" parent="business_partner_menu"
+              action="acceptance_rules_action" sequence="20"/>
+
+    <menuitem id="reservation_menu_root" name="Amenities" parent="menu_lms_config" sequence="40"/>
+
+    <menuitem id="capsule_service_menu" name="Services Category" parent="reservation_menu_root"
+              action="capsule_service_view_action" sequence="1"/>
+
+    <menuitem id="capsule_menu" name="Capsules" parent="reservation_menu_root" action="capsule_action" sequence="5"/>
+
+    <menuitem id="capsule_unavailability_menu" name="Capsule Timeslot Hold" parent="reservation_menu_root"
+              action="capsule_unavailability_action" sequence="10"/>
+
+
+</odoo>

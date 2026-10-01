@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="facilities_tree" model="ir.ui.view">
+            <field name="name">facilities.tree</field>
+            <field name="model">facilities</field>
+            <field name="arch" type="xml">
+                <list string="">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="description"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="facilities_form" model="ir.ui.view">
+            <field name="name">facilities.form</field>
+            <field name="model">facilities</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="icon"/>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="facilities_action" model="ir.actions.act_window">
+            <field name="name">facilities</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">facilities</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new facilities.
+                </p>
+                <p>
+                    Manage your facilities here.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

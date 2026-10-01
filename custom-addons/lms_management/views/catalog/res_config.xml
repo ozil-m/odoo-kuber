@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="res_config_settings_lms_view" model="ir.ui.view">
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="model">res.config.settings</field>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="LMS" string="LMS" name="LMS">
+                    <div class="app_settings_block" data-string="LMS" string="LMS"
+                         data-key="LMS">
+                        <div id="backend_config_view">
+                            <h2>LMS</h2>
+                            <div class="row mt16 o_settings_container" name="lounge_access_product_id_setting_container"
+                                 string="LMS">
+                                <div class="col-12 col-lg-6 o_setting_box" id="lounge_access_product_id">
+                                    <div class="o_setting_right_pane">
+                                        <label for="lounge_access_product_id"/>
+                                        <field name='lounge_access_product_id' options="{'no_create': True}"/>
+                                    </div>
+                                </div>
+
+                                <h2>Voucher</h2>
+                                <div class="col-12 col-lg-6 o_setting_box" id="voucher_product_id">
+                                    <div class="o_setting_right_pane">
+                                        <label for="voucher_product_id"/>
+                                        <field name='voucher_product_id' options="{'no_create': True}"/>
+                                    </div>
+
+                                </div>
+                                <div class="col-12 col-lg-6 o_setting_box" id="cash_partner_id">
+                                    <div class="o_setting_right_pane">
+                                        <label for="cash_partner_id"/>
+                                        <field name='cash_partner_id' options="{'no_create': True}"/>
+                                    </div>
+                                </div>
+                                <h2>Reservations</h2>
+                                <div class="col-12 col-lg-6 o_setting_box" id="create_before">
+                                    <div class="o_setting_right_pane">
+                                        <label for="create_before"/>
+                                        <field name='create_before'
+                                               help="Define how long before a reservation can be created. If zero they will be no restriction"/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o_setting_box" id="expire_after">
+                                    <div class="o_setting_right_pane">
+                                        <label for="expire_after"/>
+                                        <field name='expire_after'
+                                               help="Define how long after creation a reservation will be expired if not confirmed."/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

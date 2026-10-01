@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="services_tree" model="ir.ui.view">
+            <field name="name">services.tree</field>
+            <field name="model">services</field>
+            <field name="arch" type="xml">
+                <list string="">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="description"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="services_form" model="ir.ui.view">
+            <field name="name">services.form</field>
+            <field name="model">services</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="icon"/>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="services_action" model="ir.actions.act_window">
+            <field name="name">Services</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">services</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new service.
+                </p>
+                <p>
+                    Manage your services here.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

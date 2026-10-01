@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Reservation Tree View -->
+        <record id="reservation_tree" model="ir.ui.view">
+            <field name="name">reservation.tree</field>
+            <field name="model">reservation</field>
+            <field name="arch" type="xml">
+                <list string="Reservations">
+                    <field name="sequence"/>
+                    <field name="lounge_id"/>
+                    <field name="branch_id"/>
+                    <field name="capsule_id"/>
+                    <field name="product_id"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="customer"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="expire_on"/>
+                    <field name="state"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Reservation Form View -->
+        <record id="reservation_form" model="ir.ui.view">
+            <field name="name">reservation.form</field>
+            <field name="model">reservation</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="confirmed,running,expired"/>
+
+                    </header>
+
+                    <sheet>
+                        <h2>
+                            <field name="sequence" readonly="state == 'running'"/>
+                        </h2>
+
+                        <!-- Two-Column Grouping for Better Layout -->
+                        <group col="2">
+                            <group string="Reservation Details">
+                                <field name="capsule_id" options="{'no_create': True}"
+                                       readonly="state in ('running','expired')"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="lounge_id" options="{'no_create': True}"/>
+                                <field name="branch_id" options="{'no_create': True}"/>
+                                <field name="product_id" options="{'no_create': True}" readonly="state == 'running'"/>
+                                <field name="date_from" readonly="state in ('running','expired')"/>
+                                <field name="date_to" readonly="state in ('running','expired')"/>
+                            </group>
+                            <group string="Customer Contact">
+                                <field name="customer" readonly="state in ('running','expired')"/>
+                                <field name="phone" readonly="state in ('running','expired')"/>
+                                <field name="email" readonly="state in ('running','expired')"/>
+                                <field name="expire_on" readonly="1"/>
+
+                            </group>
+                        </group>
+
+                    </sheet>
+
+                    <chatter/>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- Reservation Action Definition -->
+        <record id="reservation_action" model="ir.actions.act_window">
+            <field name="name">Reservations</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">reservation</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{'create': False, 'edit': False, 'delete': False}</field>
+        </record>
+
+
+    </data>
+</odoo>

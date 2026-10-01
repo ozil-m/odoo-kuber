@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_capsule_unavailability_wizard_form" model="ir.ui.view">
+            <field name="name">capsule.unavailability.wizard.form</field>
+            <field name="model">capsule.unavailability.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Hold Capsule Timeslot">
+
+                    <group>
+                        <field name="capsule_id" options="{'no_create': True}"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="reason"/>
+                    </group>
+                    <footer>
+                        <button string="Confirm" type="object" name="action_confirm" class="btn-primary"/>
+                        <button string="Cancel" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="capsule_unavailability_tree" model="ir.ui.view">
+            <field name="name">capsule_unavailability_tree</field>
+            <field name="model">capsule.unavailability</field>
+            <field name="arch" type="xml">
+                <list string="" editable="bottom">
+                    <field name="capsule_id"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="reason"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="capsule_unavailability_action" model="ir.actions.act_window">
+            <field name="name">Capsule Timeslot Hold</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">capsule.unavailability</field>
+            <field name="view_mode">list</field>
+        </record>
+
+
+
+    </data>
+</odoo>

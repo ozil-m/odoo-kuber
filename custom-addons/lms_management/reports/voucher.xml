@@ -1,0 +1,311 @@
+<odoo>
+    <data>
+
+        <record id="lounge_voucher_paper_format_account_standard" model="report.paperformat">
+            <field name="name">Lounge Voucher</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_width">99</field>
+            <field name="page_height">140</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">110</field>
+        </record>
+
+        <record id="action_print_voucher" model="ir.actions.report">
+            <field name="name">Print</field>
+            <field name="model">lounge.voucher</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">lms_management.report_print_voucher_pdf</field>
+            <field name="report_file">lms_management.report_print_voucher_pdf</field>
+            <field name="print_report_name">'Voucher - %s' % (object.sequence)</field>
+            <field name="binding_model_id" ref="model_lounge_voucher"/>
+            <field name="paperformat_id" ref="lounge_voucher_paper_format_account_standard"/>
+        </record>
+
+        <!-- Template PDF -->
+        <template id="report_print_voucher_pdf">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <style>
+
+                            .page-break {
+                            page-break-before: always;
+                            }
+                            .page {
+                            margin: 0 auto; /* ✅ centrer la page */
+                            }
+
+                            @font-face {
+                            font-family: 'Tajawal';
+                            src: url('/lms_management/static/src/fonts/Tajawal-Regular.ttf') format('truetype');
+                            }
+
+                            .airline-logo {
+                            position: absolute;
+                            top: 13mm;
+                            left: 42%;
+                            transform: translateX(-80%);
+                            height: 16mm;
+                            max-width: 60mm;
+                            object-fit: contain;
+                            z-index: 2;
+                            }
+
+
+                            .page {
+                            width: 210mm;
+                            height: 297mm;
+                            position: relative;
+                            font-family: 'Tajawal';
+                            overflow: hidden;
+                            color: #3a3a3a;
+                            }
+
+                            .background-img {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                            z-index: 0;
+                            }
+
+                            .voucher-container {
+                            position: relative;
+                            z-index: 1;
+                            width: 100%;
+                            height: 100%;
+                            padding: 30px;
+                            box-sizing: border-box;
+                            }
+
+                            .row {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            padding: 5px 0;
+                            }
+
+                            .label {
+                            font-weight: bold;
+                            font-size: 14px;
+                            margin-bottom: 2px;
+                            }
+
+                            .value {
+                            font-size: 13px;
+                            }
+
+                            .logo {
+                            height: 60px;
+                            }
+
+                            .qr {
+                            height: 100px;
+                            width: 100px;
+                            object-fit: contain;
+                            }
+
+                            .section {
+                            text-align: center;
+                            padding: 10px 0;
+                            }
+
+                            /* ✅ Positionnement spécifique */
+                            .origin-field {
+                            position: absolute;
+                            top: 70mm; /* ajusté sous le point gauche de l'avion */
+                            left: 40mm; /* ajusté à gauche selon ton background */
+                            width: 50mm;
+                            text-align: center;
+                            font-size: 12px;
+                            z-index: 2;
+                            }
+
+                            .destination-field {
+                            position: absolute;
+                            top: 70mm; /* aligné avec Origin */
+                            right: 33mm; /* ajusté à droite selon ton background */
+                            width: 50mm;
+                            text-align: center;
+                            font-size: 12px;
+                            z-index: 2;
+                            }
+
+                            .footer {
+                            font-size: 10px;
+                            color: #777;
+                            margin-top: 20px;
+                            text-align: center;
+                            }
+
+
+                            .flight-info-box {
+                            position: absolute;
+                            top: 90mm;
+                            left: 20mm;
+                            width: 170mm;
+                            z-index: 2;
+                            }
+
+                            .flight-info-line {
+                            text-align: left;
+                            white-space: nowrap;
+                            margin-bottom: 12px;
+                            margin-left: 2mm; /* marge pour aligner gauche */
+                            }
+
+                            .flight-info-block {
+                            display: inline-block;
+                            width: 50mm;
+                            margin-right: 10mm; /* espace horizontal entre les blocs */
+                            text-align: center;
+                            vertical-align: top;
+                            }
+
+                            .flight-info-label {
+                            font-size: 10px;
+                            color: #666;
+                            margin-bottom: 2px;
+                            display: block;
+                            }
+
+                            .flight-info-value {
+                            display: inline-block;
+                            margin-top: 3px;
+                            padding: 4px 12px;
+                            background-color: #f0eae6;
+                            font-weight: bold;
+                            font-size: 13px;
+                            border-radius: 4px;
+                            text-transform: uppercase;
+                            }
+
+                            .passenger-box {
+                            position: absolute;
+                            top: 188mm; /* un peu plus haut qu’avant */
+                            left: 0;
+                            width: 100%;
+                            z-index: 2;
+                            }
+
+                            .passenger-info {
+                            text-align: left;
+                            margin-left: 60mm;
+                            margin-top: -8mm; /* ⬆️ ça le remonte */
+                            margin-bottom: 4mm;
+                            }
+
+                            .passenger-info .label {
+                            font-size: 11px;
+                            color: #888;
+                            }
+
+                            .passenger-info .value {
+                            font-size: 14px;
+                            font-weight: bold;
+                            color: #000;
+                            }
+
+                            .passenger-box .qr {
+                            display: block;
+                            margin: 18mm auto 0 auto; /* ⬆ top 6mm, centré horizontalement */
+                            height: 100px;
+                            width: 100px;
+                            object-fit: contain;
+                            }
+
+                            .flight-info-block.airline {
+                            margin-top: 10mm; /* 🔽 vers le bas */
+                            margin-left: -25mm; /* ⬅ vers la gauche */
+                            }
+
+                            .flight-info-block.destination {
+                            margin-left: -32mm; /* ⬅ pousse Destination vers la gauche */
+                            }
+                        </style>
+
+                        <img src="lms_management/static/src/background.jpg" class="background-img"/>
+
+                        <div class="voucher-container">
+
+                            <t t-if="o.client_id.image_1920">
+                                <img t-att-src="image_data_uri(o.client_id.image_1920)" class="airline-logo"/>
+                            </t>
+
+                            <div class="section">
+                                <div class="row">
+                                    <div class="origin-field">
+                                        <div class="label">Origin</div>
+                                        <div class="value" t-esc="o.origin"/>
+                                    </div>
+
+                                    <div class="destination-field">
+                                        <div class="label">Destination</div>
+                                        <div class="value" t-esc="o.destination"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flight-info-box">
+                                <div class="flight-info-line">
+                                    <div class="flight-info-block"
+                                         style="margin-left: 20mm;">
+                                        <div class="flight-info-label">Origin</div>
+                                        <div class="flight-info-value" t-esc="o.origin"/>
+                                    </div>
+
+
+                                    <div class="flight-info-block destination">
+                                        <div class="flight-info-label">Destination</div>
+                                        <div class="flight-info-value" t-esc="o.destination"/>
+                                    </div>
+
+                                </div>
+
+                                <div class="flight-info-line">
+                                    <div class="flight-info-block" style="margin-left: 20mm;">
+                                        <div class="flight-info-label">Flight No.</div>
+                                        <div class="flight-info-value" t-esc="o.flight_number"/>
+                                    </div>
+                                    <div class="flight-info-block"
+                                         style="margin-left: 10mm;">
+                                        <div class="flight-info-label">Departure Date</div>
+                                        <div class="flight-info-value" t-esc="o.departure_date"/>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="passenger-box">
+                                <div class="passenger-info">
+                                    <div class="label">Passenger</div>
+                                    <div class="value">
+                                        <span t-esc="o.partner"/>
+                                        <t t-if="o.quantity > 1">
+                                            with
+                                            (<span t-esc="o.quantity - 1"/>) guests
+                                        </t>
+                                    </div>
+                                </div>
+                                <img t-if="o.qr_code" t-att-src="image_data_uri(o.qr_code)" class="qr" alt="QR Code"/>
+                            </div>
+
+                        </div>
+                    </div>
+                </t>
+            </t>
+
+
+        </template>
+
+    </data>
+</odoo>

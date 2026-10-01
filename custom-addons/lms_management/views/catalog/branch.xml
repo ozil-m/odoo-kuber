@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inherit Form View -->
+    <record id="branch_view_form" model="ir.ui.view">
+        <field name="name">branch.view.form.inherit.module</field>
+        <field name="model">res.branch</field>
+        <field name="inherit_id" ref="branch.branch_res_branch_view_form"/>
+        <field name="arch" type="xml">
+            <!-- Add fields to an existing group -->
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="create_lounge" string="Create Lounge" class="oe_highlight" type="object"
+                            invisible="lounge_id != False"/>
+                </header>
+            </xpath>
+
+            <xpath expr="//field[@name='address']" position="before">
+                <field name="lounge_id" options="{'no_create': True}"/>
+            </xpath>
+
+
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,23 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_lms_lounge_user,lms.lounge user,model_lms_lounge,base.group_user,1,1,1,1
+access_acceptance_rule_user,access_acceptance_rule user,model_acceptance_rule,base.group_user,1,1,1,1
+access_lms_ffp_program_user,lms.ffp.program user,model_lms_ffp_program,base.group_user,1,1,1,1
+access_lms_ffp_tier_user,lms.ffp.tier user,model_lms_ffp_tier,base.group_user,1,1,1,1
+access_lms_visit_user,lms.visit user,model_lms_visit,base.group_user,1,1,1,0
+access_lms_visit_delete_group_user,access_lms_visit_delete_group_user,model_lms_visit,lms_management.lms_visit_delete_group_user,1,1,1,1
+access_lounge_voucher,access_lounge_voucher,model_lounge_voucher,base.group_user,1,1,1,1
+access_voucher_line,access_voucher_line,model_voucher_line,base.group_user,1,1,1,1
+
+access_reservation_user,access_reservation_user,model_reservation,base.group_user,1,1,1,1
+access_lms_override__visit_override_group_user,access_lms_override__visit_override_group_user,model_lms_override,lms_management.lms_visit_override_group_user,1,1,1,1
+access_lms_override_passenger,access_lms_override_passenger,model_lms_override_passenger,lms_management.lms_visit_override_group_user,1,1,1,1
+access_capsule_user,access_capsule_manager,model_capsule,base.group_user,1,1,1,1
+access_capsule_service,access_capsule_service,model_capsule_service,base.group_user,1,1,1,1
+
+access_business_partner,access_business_partner,model_business_partner,base.group_user,1,1,1,1
+
+access_capsule_unavailability,access_capsule_unavailability_manager,model_capsule_unavailability,base.group_user,1,1,1,1
+access_capsule_unavailability_wizard,access_capsule_unavailability_wizard,model_capsule_unavailability_wizard,base.group_user,1,1,1,1
+
+access_facilities,facilities.facilities,model_facilities,base.group_user,1,1,1,1
+access_services,services.services,model_services,base.group_user,1,1,1,1

@@ -1,0 +1,150 @@
+<odoo>
+    <!-- FORM -->
+    <record id="view_lms_lounge_form" model="ir.ui.view">
+        <field name="name">lms.lounge.form</field>
+        <field name="model">lms.lounge</field>
+        <field name="arch" type="xml">
+            <form string="Lounge">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="action_open_visits" type="object"
+                                icon="fa-list-alt">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Visits</span>
+                            </div>
+                        </button>
+
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" required="1"/>
+                        </h1>
+                    </div>
+                    <group string="Identity" name="identity_group">
+                        <group>
+                            <field name="code"/>
+                            <field name="logo"/>
+                        </group>
+                        <group>
+                            <field name="branch_id" options="{'no_create': True}"/>
+                            <field name="sequence_id" groups="base.group_system" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Other Info" name="other_info">
+                            <group col="4">
+                                <field name="pricelist_id" groups="product.group_product_pricelist"
+                                       options="{'no_create': True}"/>
+                                <field name="description"/>
+                                <field name="image_ids" widget="many2many_tags"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                        </page>
+
+                        <page string="Location &amp; Time" name="location_time_page">
+                            <group name="location_time_group">
+                                <group name="location_group" string="Location">
+                                    <field name="country_id" options="{'no_create': True}"/>
+                                    <field name="region_id" domain="[('country_id', '=', country_id)]"
+                                           options="{'no_create': True}"/>
+                                    <field name="state_id" domain="[('country_id', '=', country_id)]"
+                                           options="{'no_create': True}"/>
+                                    <field name="airport_id" domain="[('state_id', '=', state_id)]" options="{'no_create': True}"/>
+                                    <field name="terminal_id" options="{'no_create': True}"/>
+                                    <field name="address"/>
+                                    <field name="longitude"/>
+                                    <field name="latitude"/>
+                                </group>
+
+                                <group name="time_group" string="Time">
+                                    <!--                                    <field name="timezone"/>-->
+                                    <field name="category_type"/>
+                                    <field name="timings"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Amenities" name="amenities_page">
+                            <field name="amenity_ids" readonly="True">
+                                <list name="amenities_list">
+                                    <field name="display_name"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Services" name="services_page">
+                            <group name="services_group">
+                                <field name="services_description"/>
+                                <field name="services_ids" widget="many2many_tags"/>
+                            </group>
+                        </page>
+
+                        <page string="Facilities" name="facilities_page">
+                            <group name="facilities_group">
+                                <field name="facilities_description"/>
+                                <field name="facilities_ids" widget="many2many_tags"/>
+                            </group>
+                        </page>
+                    </notebook>
+
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- LIST -->
+    <record id="view_lms_lounge_list" model="ir.ui.view">
+        <field name="name">lms.lounge.list</field>
+        <field name="model">lms.lounge</field>
+        <field name="arch" type="xml">
+            <list string="Lounges" decoration-muted="active == False">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="branch_id"/>
+                <field name="access_price"/>
+                <field name="timezone"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- KANBAN -->
+    <record id="view_lms_lounge_kanban" model="ir.ui.view">
+        <field name="name">lms.lounge.kanban</field>
+        <field name="model">lms.lounge</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_small_column">
+                <templates>
+                    <t t-name="card">
+                        <div class="o_kanban_record">
+                            <strong>
+                                <field name="name"/>
+                            </strong>
+                            <div>
+                                <span class="text-muted">Branch:</span>
+                                <field name="branch_id"/>
+                            </div>
+                            <div>
+                                <span class="text-muted">Code:</span>
+                                <field name="code"/>
+                            </div>
+                            <div>
+                                <span class="text-muted">Timezone:</span>
+                                <field name="timezone"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <!-- ACTION -->
+    <record id="action_lms_lounge" model="ir.actions.act_window">
+        <field name="name">Lounges</field>
+        <field name="res_model">lms.lounge</field>
+        <field name="view_mode">list,form,kanban</field>
+    </record>
+</odoo>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <!-- capsule Tree View -->
+        <record id="capsule_tree" model="ir.ui.view">
+            <field name="name">capsule.list</field>
+            <field name="model">capsule</field>
+            <field name="arch" type="xml">
+                <list string="Capsules">
+                    <field name="name"/>
+                    <field name="service_id"/>
+                    <field name="product_id" widget="many2one_avatar"/>
+                    <field name="lounge_id"/>
+                    <field name="branch_id"/>
+
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- capsule Form View -->
+        <record id="capsule_form" model="ir.ui.view">
+            <field name="name">capsule.form</field>
+            <field name="model">capsule</field>
+            <field name="arch" type="xml">
+                <form string="Capsules Details">
+                    <header>
+                        <button name="action_open_unavailability_wizard" string="Mark Unavailable" type="object"
+                                class="oe_highlight"/>
+
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" name="open_reservations_action" type="object"
+                                    icon="fa-list-alt">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Reservations</span>
+                                </div>
+                            </button>
+
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="display_name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="service_id" options="{'no_create': True}"/>
+                                <field name="default_hours" widget="float_time"/>
+                                <field name="duration_lock"/>
+                            </group>
+
+                            <group>
+                                <field name="product_id" widget="many2one_avatar" options="{'no_create': True}"/>
+                                <field name="lounge_id" options="{'no_create': True}"/>
+                                <field name="branch_id" options="{'no_create': True}"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- capsule Action -->
+        <record id="capsule_action" model="ir.actions.act_window">
+            <field name="name">Capsules</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">capsule</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+
+    </data>
+</odoo>

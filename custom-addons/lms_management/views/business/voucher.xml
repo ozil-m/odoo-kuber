@@ -1,0 +1,141 @@
+<odoo>
+    <data>
+        <record id="lounge_voucher_list" model="ir.ui.view">
+            <field name="name">lounge_voucher_list</field>
+            <field name="model">lounge.voucher</field>
+            <field name="arch" type="xml">
+                <list string="">
+                    <field name="sequence"/>
+                    <field name="create_date"/>
+                    <field name="client_id"/>
+                    <field name="partner_id" options="{'no_create': True}"/>
+                    <field name="partner"/>
+                    <field name="create_uid"/>
+                    <field name="branch_id" readonly="1" options="{'no_create': True}"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="state" decoration-success="state == 'accepted'"
+                           decoration-info="state == 'issued'"
+                           decoration-warning="state == 'draft'"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="lounge_voucher_form" model="ir.ui.view">
+            <field name="name">lounge_voucher_form</field>
+            <field name="model">lounge.voucher</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <button name="action_create_invoice" type="object" string="invoice"
+                                invisible="hayyak_app == False"/>
+                        <button name="action_create_reservations" type="object" string="reservations"
+                                invisible="hayyak_app == False"/>
+                        <button name="action_confirm" type="object" string="Confirm"
+                                invisible="state != 'draft'"/>
+                        <button name="send_email" type="object" string="Send email"
+                                invisible="state != 'draft'"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,issued,accepted"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" name="get_reservations" type="object" icon="fa-list-alt"
+                                    invisible="hayyak_app == False">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Reservations</span>
+                                </div>
+                            </button>
+                        </div>
+                        <h1>
+                            <field name="sequence"/>
+                            <br/>
+                            <field name="qr_code" widget='image' class="oe_avatar"
+                                   invisible="qr_code == False"/>
+                        </h1>
+                        <group string="Client Details" name="client_details">
+                            <field name="hayyak_app" readonly="True" invisible="1"/>
+                            <field name="client_id" readonly="1"/>
+                            <field name="partner_id" readonly="state != 'draft'" options="{'no_create': True}"/>
+                        </group>
+                        <notebook>
+                            <page string="Customer Details" name="customer_details">
+                                <group string="Customer Details" name="customer_details">
+
+                                    <field name="partner" readonly="state != 'draft'"/>
+                                    <field name="email" autocomplete="on" widget='email'
+                                           readonly="state != 'draft'"/>
+                                    <field name="mobile" readonly="state != 'draft'"/>
+
+                                </group>
+                            </page>
+
+                            <page string="Travel Details" name="travel_details">
+                                <group name="travel_details">
+                                    <group name="travel_details_1">
+                                        <field name="flight_number" readonly="state != 'draft'"/>
+                                        <field name="origin" readonly="state != 'draft'"/>
+                                        <field name="destination" readonly="state != 'draft'"/>
+                                        <field name="departure_date" readonly="state != 'draft'"/>
+                                    </group>
+
+                                    <group name="travel_details_2">
+                                        <field name="boarding" readonly="state != 'draft'"/>
+                                        <field name="used_on" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+
+                            <page string="Voucher Details" name="voucher_details">
+                                <group name="voucher_details">
+                                    <group name="voucher_details_1">
+                                        <field name="company_id" groups="base.group_multi_company"
+                                               readonly="state != 'draft'"/>
+                                        <field name="used_on" readonly="1"/>
+                                        <field name="branch_id" readonly="state != 'draft'"
+                                               options="{'no_create': True}"/>
+                                    </group>
+                                    <group name="voucher_details_2">
+                                        <field name="product_id" options="{'no_create': True}"
+                                               readonly="state != 'draft'"/>
+                                        <field name="quantity" readonly="state != 'draft'"/>
+                                        <field name="used_quantity" readonly="1"/>
+                                        <field name="remain_quantity"/>
+                                    </group>
+                                </group>
+                            </page>
+
+                            <page string="Pricing" name="pricing_details" invisible="hayyak_app == False">
+                                <group name="pricing_details" clo="4">
+                                    <group name="pricing_details_1">
+                                        <field name="product_id" options="{'no_create': True}"
+                                               readonly="state != 'draft'"/>
+                                        <field name="quantity" readonly="state != 'draft'"/>
+                                        <field name="price" readonly="1"/>
+                                        <field name="discount_amount" readonly="1"/>
+                                        <field name="net_price" readonly="1"/>
+                                    </group>
+                                    <group name="pricing_details_2">
+                                        <field name="tax_id" widget="many2many_tags" readonly="state != 'draft'"/>
+                                        <field name="total_excluded"/>
+                                        <field name="amount_tax"/>
+                                        <field name="total_included"/>
+                                        <field name="invoice_id" readonly="1"/>
+                                        <field name="note" readonly="state != 'draft'"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="lounge_voucher_action" model="ir.actions.act_window">
+            <field name="name">Voucher System</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">lounge.voucher</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+    </data>
+</odoo>

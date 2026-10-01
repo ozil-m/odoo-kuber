@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- TIER FORM -->
+    <record id="view_lms_ffp_tier_form" model="ir.ui.view">
+        <field name="name">lms.ffp.tier.form</field>
+        <field name="model">lms.ffp.tier</field>
+        <field name="arch" type="xml">
+            <form string="FFP Tier">
+                <sheet>
+                    <group col="4">
+                        <field name="name" required="1"/>
+                        <field name="code"/>
+                        <field name="logo"/>
+                        <field name="rank"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- TIER LIST -->
+    <record id="view_lms_ffp_tier_list" model="ir.ui.view">
+        <field name="name">lms.ffp.tier.list</field>
+        <field name="model">lms.ffp.tier</field>
+        <field name="arch" type="xml">
+            <list string="FFP Tiers">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="rank"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+
+    <!-- TIER ACTION -->
+    <record id="action_lms_ffp_tier" model="ir.actions.act_window">
+        <field name="name">FFP Tiers</field>
+        <field name="res_model">lms.ffp.tier</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="acceptance_rules_view_form" model="ir.ui.view">
+        <field name="name">acceptance.rule.view.form</field>
+        <field name="model">acceptance.rule</field>
+        <field name="arch" type="xml">
+            <form create="0">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="action_open_visits" type="object"
+                                icon="fa-list-alt">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Visits</span>
+                            </div>
+                        </button>
+
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="display_name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group col="4">
+                        <field name="partner_type" invisible="1"/>
+                        <field name="business_partner_id" options="{'no_create': True}" readonly="1"/>
+                        <field name="cabin_class" invisible="type != 'class'"/>
+                        <field name="name" invisible="partner_type not in  ['aggregator','corporate','cash']"/>
+                        <field name="code"/>
+                        <field name="logo"/>
+                        <field name="type"/>
+                        <field name="ffp_program_id" invisible="type != 'tier'" options="{'no_create': True}"/>
+                        <field name="tier_id" invisible="type != 'tier'" options="{'no_create': True}"/>
+                        <field name="eligible"/>
+                        <field name="product_main_id" options="{'no_create': True}"/>
+                        <field name="allow_guest"/>
+                        <field name="product_guest_id" invisible="not allow_guest" required="allow_guest"
+                               options="{'no_create': True}"/>
+                        <field name="guest_count" invisible="not allow_guest" required="allow_guest"/>
+                        <field name="validation_expression"/>
+                        <field name="lounge_ids" widget="many2many_tags" placeholder="Empty Means All lounges"
+                               options="{'no_create': True}"/>
+                        <field name="rank"/>
+                        <field name="notes"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="acceptance_rules_view_list" model="ir.ui.view">
+        <field name="name">acceptance.rule.view.list</field>
+        <field name="model">acceptance.rule</field>
+        <field name="arch" type="xml">
+            <list string="acceptance_rules" create="0">
+                <field name="business_partner_id"/>
+                <field name="code"/>
+                <field name="type"/>
+                <field name="eligible"/>
+                <field name="allow_guest"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+
+    <!-- Actions -->
+    <record id="acceptance_rules_action" model="ir.actions.act_window">
+        <field name="name">acceptance rules</field>
+        <field name="res_model">acceptance.rule</field>
+        <field name="view_mode">list,form</field>
+            <field name="context">{'create': False, 'edit': False, 'delete': False}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first acceptance rules!
+            </p>
+        </field>
+    </record>
+
+</odoo>

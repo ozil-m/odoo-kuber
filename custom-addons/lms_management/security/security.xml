@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="lms_management_category_root" model="ir.module.category">
+        <field name="name">LMS</field>
+        <field name="sequence" eval="1"/>
+        <field name="parent_id" eval="False"/>
+    </record>
+
+    <record id="lms_group_user" model="res.groups">
+        <field name="name">Lounge User</field>
+        <field name="category_id" ref="lms_management_category_root"/>
+        <field name="comment">Basic access to Sec</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="lms_visit_override_group_user" model="res.groups">
+        <field name="name">Visits Override</field>
+        <field name="category_id" ref="lms_management_category_root"/>
+        <field name="comment">Access to Visits Override</field>
+        <field name="implied_ids" eval="[(4, ref('lms_management.lms_group_user'))]"/>
+    </record>
+
+    <record id="lms_visit_delete_group_user" model="res.groups">
+        <field name="name">Delete Visits</field>
+        <field name="category_id" ref="lms_management_category_root"/>
+        <field name="comment">Access to Visits Delete</field>
+        <field name="implied_ids" eval="[(4, ref('lms_management.lms_group_user'))]"/>
+    </record>
+
+    <record id="lms_group_supervisor" model="res.groups">
+        <field name="name">Lounge Supervisor</field>
+        <field name="category_id" ref="lms_management_category_root"/>
+        <field name="comment">Full access to Sec</field>
+        <field name="implied_ids" eval="[(4, ref('lms_group_user'))]"/>
+    </record>
+
+    <record id="lms_group_finance" model="res.groups">
+        <field name="name">LMS Finance</field>
+        <field name="category_id" ref="lms_management_category_root"/>
+        <field name="comment">Full access to Sec</field>
+        <field name="implied_ids" eval="[(4, ref('lms_group_supervisor'))]"/>
+    </record>
+
+    <record id="lms_group_manager" model="res.groups">
+        <field name="name">LMS Manager</field>
+        <field name="category_id" ref="lms_management_category_root"/>
+        <field name="comment">Full access to Sec</field>
+        <field name="implied_ids" eval="[(4, ref('lms_group_finance'))]"/>
+    </record>
+
+    <!--    <record id="lms_lounge_user_rule" model="ir.rule">-->
+    <!--        <field name="name">Lounge Access User &amp; Supervisor</field>-->
+    <!--        <field ref="model_lms_lounge" name="model_id"/>-->
+    <!--        <field name="domain_force">[('branch_id', 'in', user.branch_ids.ids )]</field>-->
+    <!--        <field name="perm_write" eval="1"/>-->
+    <!--        <field name="perm_create" eval="1"/>-->
+    <!--        <field name="perm_read" eval="1"/>-->
+    <!--        <field name="perm_unlink" eval="0"/>-->
+    <!--        &lt;!&ndash; You can attach this rule to a specific group, Or make it Global &ndash;&gt;-->
+    <!--        <field name="groups" eval="[(4, ref('lms_group_user')),(4, ref('lms_group_supervisor'))]"/>-->
+    <!--        &lt;!&ndash;<field name="global" eval="1"/> &ndash;&gt;-->
+    <!--    </record>-->
+
+    <!--    <record id="lms_lounge_finance_rule" model="ir.rule">-->
+    <!--        <field name="name">Lounge Access Manager &amp; Finance</field>-->
+    <!--        <field ref="model_lms_lounge" name="model_id"/>-->
+    <!--        <field name="domain_force">[('1', '=', '1' )]</field>-->
+    <!--        <field name="perm_write" eval="1"/>-->
+    <!--        <field name="perm_create" eval="1"/>-->
+    <!--        <field name="perm_read" eval="1"/>-->
+    <!--        <field name="perm_unlink" eval="0"/>-->
+    <!--        &lt;!&ndash; You can attach this rule to a specific group, Or make it Global &ndash;&gt;-->
+    <!--        <field name="groups" eval="[(4, ref('lms_group_finance'))]"/>-->
+    <!--        &lt;!&ndash;<field name="global" eval="1"/> &ndash;&gt;-->
+    <!--    </record>-->
+
+    <!--    <record id="lms_lounge_manager_rule" model="ir.rule">-->
+    <!--        <field name="name">Lounge Access Manager Full Access</field>-->
+    <!--        <field ref="model_lms_lounge" name="model_id"/>-->
+    <!--        <field name="domain_force">[('1', '=', '1' )]</field>-->
+    <!--        <field name="perm_write" eval="1"/>-->
+    <!--        <field name="perm_create" eval="1"/>-->
+    <!--        <field name="perm_read" eval="1"/>-->
+    <!--        <field name="perm_unlink" eval="1"/>-->
+    <!--        &lt;!&ndash; You can attach this rule to a specific group, Or make it Global &ndash;&gt;-->
+    <!--        <field name="groups" eval="[(4, ref('lms_group_manager'))]"/>-->
+    <!--        &lt;!&ndash;<field name="global" eval="1"/> &ndash;&gt;-->
+    <!--    </record>-->
+</odoo>

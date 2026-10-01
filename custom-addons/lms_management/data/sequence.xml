@@ -1,0 +1,36 @@
+<odoo>
+    <data noupdate="0">
+        <record id="seq_lms_visit" model="ir.sequence">
+            <field name="name">Lounge Visit</field>
+            <field name="code">lms.visit</field>
+            <field name="prefix">LV/%(y)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_lms_override" model="ir.sequence">
+            <field name="name">Lounge Override</field>
+            <field name="code">lms.override</field>
+            <field name="prefix">OVR/%(y)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_lms_booking" model="ir.sequence">
+            <field name="name">Lounge Booking</field>
+            <field name="code">lms.booking</field>
+            <field name="prefix">BK/%(y)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_lounge_voucher" model="ir.sequence">
+            <field name="name">lounge voucher Seq</field>
+            <field name="code">lounge.voucher.sequence</field>
+            <field name="prefix">KC1%(y)s</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+            <field name="implementation">no_gap</field>
+        </record>
+    </data>
+</odoo>

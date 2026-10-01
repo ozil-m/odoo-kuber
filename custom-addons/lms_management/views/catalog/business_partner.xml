@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="business_partner_view_form" model="ir.ui.view">
+        <field name="name">business.partner.view.form</field>
+        <field name="model">business.partner</field>
+        <field name="arch" type="xml">
+            <form string="Business Partner">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="action_open_visits" type="object"
+                                icon="fa-list-alt">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Visits</span>
+                            </div>
+                        </button>
+                    </div>
+                    <group>
+                        <group string="Identity">
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="logo"/>
+                            <field name="partner_id" options="{'no_create': True}"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="partner_type" invisible="1"/>
+                        </group>
+
+                        <group string="Business Details">
+                            <field name="settlement_model"/>
+                            <field name="allow_integration" invisible="partner_type in ['aggregator','corporate']"/>
+                            <field name="contacted_partner" groups="base.group_no_one"/>
+                            <field name="pax_quota"/>
+                            <field name="access_window"/>
+                            <field name="allowed_access_rule" invisible="partner_type != 'airline'"/>
+                            <field name="ffp_program_ids" widget="many2many_tags"
+                                   invisible="partner_type != 'airline' or allowed_access_rule not in ['tire','both']"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Integration" name="integration_page" invisible="not allow_integration">
+                            <group col="4">
+                                <field name="api_base_url" required="allow_integration"/>
+                                <field name="api_key" required="allow_integration"/>
+                            </group>
+                        </page>
+                        <page string="Contract" name="contract_page" invisible="not contacted_partner"
+                              groups="base.group_no_one">
+                            <group col="4">
+                                <field name="contract_start" required="contacted_partner"/>
+                                <field name="contract_end" required="contacted_partner"/>
+                                <field name="contract_end" required="contacted_partner"/>
+                                <field name="contract_status" required="contacted_partner"/>
+                            </group>
+                        </page>
+                        <page string="Access Window" name="access_window" invisible="not access_window">
+                            <group col="4">
+                                <field name="before_departure_window"/>
+                                <field name="after_arrival_window"/>
+                            </group>
+                        </page>
+                        <page string="Quotas" name="quota" invisible="not pax_quota">
+                            <group col="4">
+                                <field name="free_pax_quota"/>
+                                <field name="used_quota"/>
+                                <field name="remaining_quota" widget="progressbar"
+                                       options="{'max_field': 'free_pax_quota'}"/>
+                                <field name="allow_access_after_quota_exceeded"/>
+                                <field name="quota_start"/>
+                                <field name="quota_end"/>
+                            </group>
+                        </page>
+                        <page string="Business Partner Acceptance Rules" name="business_partner_rules"
+                              invisible="partner_type not in  ['aggregator','corporate','cash']">
+                            <field name="business_partner_acceptance_rules_ids"
+                                   context="{'type': 'business_partner', 'business_partner_id': id}">
+                                <list>
+                                    <field name="type" invisible="1" optional="hide"/>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="eligible"/>
+                                    <field name="product_main_id" required="eligible" options="{'no_create': True}"/>
+                                    <field name="allow_guest"/>
+                                    <field name="product_guest_id" options="{'no_create': True}"
+                                           invisible="not allow_guest"
+                                           readonly="not allow_guest" required="allow_guest"/>
+                                    <field name="guest_count" readonly="not allow_guest" required="allow_guest"
+                                           invisible="not allow_guest"/>
+                                    <field name="validation_expression" optional="hide"/>
+                                    <field name="lounge_ids" placeholder="Empty Means All lounges"
+                                           widget="many2many_tags" optional="hide" options="{'no_create': True}"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="logo"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Booking Class Acceptance Rules" name="booking_class"
+                              invisible="partner_type != 'airline' or allowed_access_rule not in ['tire','both']">
+                            <field name="booking_class_acceptance_rules_ids"
+                                   context="{'default_type': 'class', 'default_business_partner_id': id}">
+
+                                <list>
+                                    <field name="cabin_class" required="1"/>
+                                    <field name="code" string="Class Code" help="E.g., J,C,D" required="1"/>
+                                    <field name="eligible"/>
+                                    <field name="product_main_id" required="eligible"/>
+                                    <field name="allow_guest"/>
+                                    <field name="product_guest_id" readonly="not allow_guest" required="allow_guest"
+                                           invisible="not allow_guest"/>
+                                    <field name="guest_count" readonly="not allow_guest" required="allow_guest"
+                                           invisible="not allow_guest"/>
+                                    <field name="validation_expression" optional="hide"/>
+                                    <field name="lounge_ids" widget="many2many_tags" optional="hide"
+                                           placeholder="Empty Means All lounges"/>
+                                    <field name="rank" optional="hide"/>
+                                    <field name="notes" optional="hide"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="FFP Tier Acceptance Rules" name="ffp_rules"
+                              invisible="partner_type != 'airline' or allowed_access_rule not in ['ffp','both']">
+                            <field name="ffp_tier_acceptance_rules_ids"
+                                   context="{'default_type': 'tier', 'default_business_partner_id': id}">
+                                <list>
+                                    <field name="ffp_program_id" domain="[('business_partner_ids','in', [parent.id])]"
+                                           required="1"/>
+                                    <field name="tier_id" required="1"/>
+                                    <field name="eligible"/>
+                                    <field name="product_main_id" required="eligible" invisible="not eligible"/>
+                                    <field name="allow_guest"/>
+                                    <field name="guest_count" required="allow_guest" readonly="not allow_guest"
+                                           invisible="not allow_guest"/>
+                                    <field name="product_guest_id" required="allow_guest" readonly="not allow_guest"
+                                           invisible="not allow_guest"/>
+                                    <field name="validation_expression" optional="hide" invisible="not eligible"/>
+                                    <field name="lounge_ids" widget="many2many_tags" optional="hide"
+                                           placeholder="Empty Means All lounges"/>
+                                    <field name="notes" optional="hide"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="business_partner_view_list" model="ir.ui.view">
+        <field name="name">business.partner.view.list</field>
+        <field name="model">business.partner</field>
+        <field name="arch" type="xml">
+            <list string="Business_partner">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="partner_id"/>
+                <field name="settlement_model"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="airline_business_partner_action" model="ir.actions.act_window">
+        <field name="name">Airlines</field>
+        <field name="res_model">business.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('partner_type', '=', 'airline')]</field>
+        <field name="context">{'default_partner_type': 'airline'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Airline!
+            </p>
+        </field>
+    </record>
+
+    <record id="aggregator_business_partner_action" model="ir.actions.act_window">
+        <field name="name">Aggregator</field>
+        <field name="res_model">business.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('partner_type', '=', 'aggregator')]</field>
+        <field name="context">{'default_partner_type': 'aggregator'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Aggregator!
+            </p>
+        </field>
+    </record>
+
+    <record id="corporate_business_partner_action" model="ir.actions.act_window">
+        <field name="name">Corporate</field>
+        <field name="res_model">business.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('partner_type', '=', 'corporate')]</field>
+        <field name="context">{'default_partner_type': 'corporate'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Corporate!
+            </p>
+        </field>
+    </record>
+
+    <record id="cash_business_partner_action" model="ir.actions.act_window">
+        <field name="name">Cash</field>
+        <field name="res_model">business.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('partner_type', '=', 'cash')]</field>
+        <field name="context">{'default_partner_type': 'cash'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Cash Business Partner!
+            </p>
+        </field>
+    </record>
+
+    <record id="business_partner_action" model="ir.actions.act_window">
+        <field name="name">Business Partners</field>
+        <field name="res_model">business.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'create': False}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Business Partner!
+            </p>
+        </field>
+    </record>
+
+</odoo>
